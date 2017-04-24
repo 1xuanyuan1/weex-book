@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" @click="update">
     <image :src="logoUrl" class="logo"></image>
-    <text class="title">Hello {{target}}</text>
+    <text class="title">Duke {{target}}</text>
   </div>
 </template>
 
@@ -13,9 +13,11 @@
 
 <script>
   export default {
-    data: {
-      logoUrl: 'https://alibaba.github.io/weex/img/weex_logo_blue@3x.png',
-      target: 'World'
+    data () {
+      return {
+        logoUrl: 'https://alibaba.github.io/weex/img/weex_logo_blue@3x.png',
+        target: 'World'
+      }
     },
     methods: {
       update: function (e) {

@@ -2,11 +2,13 @@ package com.cq.duke.weexbook.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.cq.duke.weexbook.R;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.WXSDKManager;
 import com.taobao.weex.utils.WXFileUtils;
 
 public class MainActivity extends AppCompatActivity implements IWXRenderListener{
@@ -43,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         System.out.println("渲染出错");
         System.out.println(msg);
     }
-
+    public void onBackPressed(){
+        Log.e("USER ACTION", "BACK");
+        WXSDKManager.getInstance().fireEvent(mWXSDKInstance.getInstanceId(),"_root","androidback");
+    }
     @Override
     protected void onResume() {
         super.onResume();

@@ -13,7 +13,8 @@
     "dev": "webpack --watch",
     "serve": "node build/init.js && serve -p 8080",
     "debug": "weex-devtool",
-    "copy": "cp dist/app.weex.js android/app/src/main/assets/native.js"
+    "copy": "cp dist/app.weex.js android/app/src/main/assets/native.js",
+    "start": "npm run build && npm run copy"
   },
   "dependencies": {
     "vue": "^2.1.8",
@@ -40,9 +41,9 @@
     "serve": "^1.4.0",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.8",
-    "webpack": "^1.14.0",
+    "webpack": "^2.4.1",
     "weex-devtool": "^0.2.64",
-    "weex-loader": "^0.4.1",
-    "weex-vue-loader": "^0.2.5"
+    "weex-loader": "^0.4.4",
+    "weex-vue-loader": "^0.2.12"
   }
 }

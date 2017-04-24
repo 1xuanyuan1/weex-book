@@ -1,46 +1,28 @@
-// You can install more packages below to config more as you like:
-// eslint
-// babel-eslint
-// eslint-config-standard
-// eslint-loader
-// eslint-plugin-html
-// eslint-plugin-promise
-// eslint-plugin-standard
-// postcss-cssnext
+const path = require('path')
+const webpack = require('webpack')
 
-var path = require('path')
-var webpack = require('webpack')
-
-var bannerPlugin = new webpack.BannerPlugin(
-  '// { "framework": "Vue" }\n',
-  { raw: true }
-)
-
+const bannerPlugin = new webpack.BannerPlugin({
+  banner: '// { "framework": "Vue" }\n',
+  raw: true
+})
+const projectRoot = path.resolve(__dirname, '../')
 function getBaseConfig () {
   return {
     entry: {
-      app: path.resolve('./app.js')
+      'app': path.resolve('src', 'app')
     },
     output: {
-      path: 'dist',
+      path: path.resolve(__dirname, 'dist')
     },
     module: {
-      preLoaders: [
+      rules: [
         {
-          test: /\.vue$/,
-          loader: 'eslint',
-          exclude: /node_modules/
-        },
-        {
+          test: /\.(vue|js)$/,
+          loader: 'eslint-loader',
+          enforce: "pre"
+        }, {
           test: /\.js$/,
-          loader: 'eslint',
-          exclude: /node_modules/
-        }
-      ],
-      loaders: [
-        {
-          test: /\.js$/,
-          loader: 'babel',
+          loader: 'babel-loader',
           exclude: /node_modules/
         }, {
           test: /\.vue(\?[^?]+)?$/,
@@ -48,28 +30,19 @@ function getBaseConfig () {
         }
       ]
     },
-    vue: {
-      // // You can use PostCSS now!
-      // // Take cssnext for example:
-      // // 1. npm install postcss-cssnext --save-dev
-      // // 2. write `var cssnext = require('postcss-cssnext')` at the top
-      // // 3. set the config below
-      // postcss: [cssnext({
-      //   features: {
-      //     autoprefixer: false
-      //   }
-      // })]
-    },
-    plugins: [bannerPlugin]
+    plugins: [
+      // new webpack.optimize.UglifyJsPlugin({compress: { warnings: false }}),
+      bannerPlugin
+    ]
   }
 }
 
 var webConfig = getBaseConfig()
 webConfig.output.filename = '[name].web.js'
-webConfig.module.loaders[1].loaders.push('vue')
+webConfig.module.rules[2].loaders.push('vue-loader')
 
-var weexConfig = getBaseConfig()
-weexConfig.output.filename = '[name].weex.js'
-weexConfig.module.loaders[1].loaders.push('weex')
+var nativeConfig = getBaseConfig()
+nativeConfig.output.filename = '[name].weex.js'
+nativeConfig.module.rules[2].loaders.push('weex-loader')
 
-module.exports = [webConfig, weexConfig]
+module.exports = [webConfig, nativeConfig]
