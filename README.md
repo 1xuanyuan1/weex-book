@@ -1,8 +1,8 @@
 # weex-book
 
-weex初探 —— 追书神器
-1.使用 weex-toolkit 初始化工程
-2.android代码是用户Android studio 创建再引入weex-sdk
+* weex初探 —— 追书神器
+* 1.使用 weex-toolkit 初始化工程
+* 2.android代码是用户Android studio 创建再引入weex-sdk
 
 
 ## getting start

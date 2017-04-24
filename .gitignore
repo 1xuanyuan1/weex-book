@@ -4,5 +4,3 @@ config.js
 *log
 *.apk
 *.txt
-android/.gradle
-android/.idea
