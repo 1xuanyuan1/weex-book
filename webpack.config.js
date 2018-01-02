@@ -6,13 +6,26 @@ const bannerPlugin = new webpack.BannerPlugin({
   raw: true
 })
 const projectRoot = path.resolve(__dirname, '../')
-function getBaseConfig () {
+function getBaseConfig (filename, loaders) {
   return {
     entry: {
       'app': path.resolve('src', 'app')
     },
     output: {
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'dist'),
+      filename
+    },
+    resolve: {
+      extensions: [
+        '.js', '.vue'
+      ],
+      alias: {
+        'src': path.resolve(__dirname, 'src'),
+        'utils': path.resolve(__dirname, 'src/utils'),
+        'views': path.resolve(__dirname, 'src/views'),
+        'style': path.resolve(__dirname, 'src/style'),
+        'service': path.resolve(__dirname, 'src/service')
+      }
     },
     module: {
       rules: [
@@ -26,7 +39,7 @@ function getBaseConfig () {
           exclude: /node_modules/
         }, {
           test: /\.vue(\?[^?]+)?$/,
-          loaders: []
+          loaders
         }
       ]
     },
@@ -37,12 +50,7 @@ function getBaseConfig () {
   }
 }
 
-var webConfig = getBaseConfig()
-webConfig.output.filename = '[name].web.js'
-webConfig.module.rules[2].loaders.push('vue-loader')
-
-var nativeConfig = getBaseConfig()
-nativeConfig.output.filename = '[name].weex.js'
-nativeConfig.module.rules[2].loaders.push('weex-loader')
+var webConfig = getBaseConfig('[name].web.js', ['vue-loader'])
+var nativeConfig = getBaseConfig('[name].weex.js', ['weex-loader'])
 
 module.exports = [webConfig, nativeConfig]

@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.cq.duke.weexbook.R;
+import com.cq.duke.weexbook.module.UtilModule;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.WXSDKManager;
 import com.taobao.weex.utils.WXFileUtils;
+import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends AppCompatActivity implements IWXRenderListener{
+public class MainActivity extends AppCompatActivity implements IWXRenderListener, UtilModule.MyModuleListener{
     private WXSDKInstance mWXSDKInstance;
 
     @Override
@@ -23,8 +25,15 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         mWXSDKInstance.registerRenderListener(this);
         System.out.println("开始渲染");
         mWXSDKInstance.render(WXFileUtils.loadAsset("native.js", this));
-    }
+        View view = new View(this);
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("123");
+            }
+        });
+    }
     @Override
     public void onViewCreated(WXSDKInstance instance, View view) {
         setContentView(view);
@@ -55,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         if(mWXSDKInstance!=null){
             mWXSDKInstance.onActivityResume();
         }
+        //友盟统计
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -63,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         if(mWXSDKInstance!=null){
             mWXSDKInstance.onActivityPause();
         }
+        //友盟统计
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -79,5 +92,10 @@ public class MainActivity extends AppCompatActivity implements IWXRenderListener
         if(mWXSDKInstance!=null){
             mWXSDKInstance.onActivityDestroy();
         }
+    }
+
+    @Override
+    public void setMyTitle(String title) {
+        setTitle(title);
     }
 }

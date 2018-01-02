@@ -17,12 +17,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        qq {}
+        qh360 {}
+        oppo {}
+        xiaomi {}
+        huawei {}
+        ali {}
+        pgyer {}
+        google {}
+    }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.squareup.picasso:picasso:2.5.2'
-
+    // umeng统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
